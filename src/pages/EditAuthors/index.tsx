@@ -1,0 +1,1 @@
+export { EditAuthors } from "./EditAuthors";
