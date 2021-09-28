@@ -5,6 +5,7 @@ import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { AuthorActionTypes } from "../../redux/types/authors";
 import { IAuthor, IParams } from "../../types";
 import { EditAuthorsWrapper } from "./styles";
+import { Button } from "antd";
 
 interface EditAuthorsProps {}
 
@@ -63,6 +64,12 @@ export const EditAuthors: FC<EditAuthorsProps> = () => {
 
   return (
     <EditAuthorsWrapper>
+      <Button
+        style={{ alignSelf: "flex-start" }}
+        onClick={() => history.push("/authors")}
+      >
+        Назад
+      </Button>
       <label>
         {currentAuthor?.first_name}
         <input value={firstName} onChange={changeFirstName} />

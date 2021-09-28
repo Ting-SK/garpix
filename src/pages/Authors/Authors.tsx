@@ -51,7 +51,7 @@ export const Authors: FC<AuthorsProps> = () => {
                   </button>
                 </Td>
                 <Td>
-                  <button onClick={() => history.push(`/edit/${el.id}`)}>
+                  <button onClick={() => history.push(`/editauthor/${el.id}`)}>
                     Редактирование
                   </button>
                 </Td>
@@ -63,7 +63,7 @@ export const Authors: FC<AuthorsProps> = () => {
           })}
           <Tr>
             <Td>
-              <button onClick={() => history.push(`/create`)}>
+              <button onClick={() => history.push(`/createauthor`)}>
                 Добавление автора
               </button>
             </Td>

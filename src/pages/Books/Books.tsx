@@ -1,10 +1,11 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import "antd/dist/antd.css";
 
 import { BooksWrapper, Table, Td, Th, Tr } from "./styles";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { useActions } from "../../hooks/useActions";
-import { IBook } from "../../types";
+import { useHistory } from "react-router";
+import { BooksActionTypes } from "../../redux/types/books";
+import { useDispatch } from "react-redux";
 
 interface BooksProps {}
 
@@ -22,13 +23,17 @@ export const titleBooks = [
 export const Books: FC<BooksProps> = () => {
   const { dataBooks } = useTypedSelector((state) => state.dataBooks);
   const { dataAuthors } = useTypedSelector((state) => state.dataAuthors);
-  const { fetchBooks } = useActions();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const deleteBook = (id: number) => {
+    let index = dataBooks.findIndex((el) => el.id === id);
+    dataBooks.splice(index, 1);
+    dispatch({
+      type: BooksActionTypes.FETCH_BOOKS,
+      payload: dataBooks,
+    });
+  };
 
-  useEffect(() => {
-    fetchBooks();
-  }, [dataBooks]);
-
- 
   return (
     <BooksWrapper>
       <Table>
@@ -44,24 +49,43 @@ export const Books: FC<BooksProps> = () => {
             return (
               <Tr>
                 <Td>{el.title}</Td>
-                <Td>Автор</Td>
-                <Td>Автор</Td>
+                <Td>
+                  {dataAuthors.map(
+                    (auth) =>
+                      auth.id === el.author_id && <Td>{auth.last_name}</Td>
+                  )}
+                </Td>
+                <Td>
+                  {dataAuthors.map(
+                    (auth) =>
+                      auth.id === el.author_id && <Td>{auth.first_name}</Td>
+                  )}
+                </Td>
                 <Td>{el.created_at}</Td>
                 <Td>
-                  <button>Ссылка на просмотр</button>
+                  <button onClick={() => history.push(`/books/${el.id}`)}>
+                    Ссылка на просмотр
+                  </button>
                 </Td>
                 <Td>
-                  <button>Редактирование</button>
+                  <button onClick={() => history.push(`/editbook/${el.id}`)}>
+                    Редактирование
+                  </button>
                 </Td>
                 <Td>
-                  <button>Удаление книги</button>
-                </Td>
-                <Td>
-                  <button>Создание книги</button>
+                  <button onClick={() => deleteBook(el.id)}>
+                    Удаление книги
+                  </button>
                 </Td>
               </Tr>
             );
           })}
+          <Tr>
+            {" "}
+            <button onClick={() => history.push(`/createbook`)}>
+              Создание книги
+            </button>
+          </Tr>
         </tbody>
       </Table>
     </BooksWrapper>

@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import { FC, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router";
@@ -59,6 +60,12 @@ export const CreateAuthors: FC<CreateAuthorsProps> = () => {
 
   return (
     <CreateAuthorsWrapper>
+      <Button
+        style={{ alignSelf: "flex-start" }}
+        onClick={() => history.push("/authors")}
+      >
+        Назад
+      </Button>
       <label>
         Новое имя
         <input value={newName} onChange={changeName} />

@@ -7,9 +7,10 @@ import { Routes } from "./navigation/routes";
 interface AppProps {}
 
 export const App: FC<AppProps> = () => {
-  const { fetchAuthors } = useActions();
+  const { fetchAuthors, fetchBooks } = useActions();
   useEffect(() => {
     fetchAuthors();
+    fetchBooks();
   }, []);
   return (
     <AppWrapper>
