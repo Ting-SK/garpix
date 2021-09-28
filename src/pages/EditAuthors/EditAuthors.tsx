@@ -1,7 +1,6 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
-import { useActions } from "../../hooks/useActions";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { AuthorActionTypes } from "../../redux/types/authors";
 import { IAuthor, IParams } from "../../types";
@@ -18,11 +17,6 @@ export const EditAuthors: FC<EditAuthorsProps> = () => {
   const dispatch = useDispatch();
 
   const { dataAuthors } = useTypedSelector((state) => state.dataAuthors);
-  const { fetchAuthors } = useActions();
-
-  useEffect(() => {
-    fetchAuthors();
-  }, [dataAuthors]);
 
   let currentAuthor: IAuthor | undefined = dataAuthors.find(
     (el) => el.id === +params.id
@@ -30,33 +24,42 @@ export const EditAuthors: FC<EditAuthorsProps> = () => {
 
   console.log(currentAuthor);
 
-  const changeFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFirstName(e.target.value);
-  };
+  const changeFirstName = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFirstName(e.target.value);
+    },
+    [setFirstName]
+  );
 
-  const changeLastName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLastName(e.target.value);
-  };
+  const changeLastName = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setLastName(e.target.value);
+    },
+    [setLastName]
+  );
 
-  const editAuthor = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const newAuthor = dataAuthors.map((rec) => {
-      if (rec.id === +params.id) {
-        return {
-          id: +params.id,
-          last_name: lastName,
-          first_name: firstName,
-        };
-      }
-      return rec;
-    });
-    dispatch({
-      type: AuthorActionTypes.EDIT_AUTHOR,
-      payload: [newAuthor],
-    });
-    console.log(dataAuthors, newAuthor);
-    history.push("../authors");
-  };
+  const editAuthor = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      const editAuthor = dataAuthors.map((rec) => {
+        if (rec.id === +params.id) {
+          return {
+            id: +params.id,
+            last_name: lastName,
+            first_name: firstName,
+          };
+        }
+        return rec;
+      });
+      dispatch({
+        type: AuthorActionTypes.FETCH_AUTHOR,
+        payload: editAuthor,
+      });
+      console.log(dataAuthors, editAuthor);
+      history.push("../authors");
+    },
+    [dataAuthors, dispatch, firstName, history, lastName, params.id]
+  );
 
   return (
     <EditAuthorsWrapper>

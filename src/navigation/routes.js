@@ -1,6 +1,7 @@
 import { Switch, Route } from "react-router-dom";
 import { Authors } from "../pages/Authors";
 import { Books } from "../pages/Books";
+import { CreateAuthors } from "../pages/CreateAuthors";
 import { CurrentAuthors } from "../pages/CurrentAuthors";
 import { EditAuthors } from "../pages/EditAuthors";
 import { MainPage } from "../pages/MainPage";
@@ -22,6 +23,9 @@ export const Routes = () => {
       </Route>{" "}
       <Route path={"/edit/:id"}>
         <EditAuthors />
+      </Route>
+      <Route path={"/create"}>
+        <CreateAuthors />
       </Route>
     </Switch>
   );

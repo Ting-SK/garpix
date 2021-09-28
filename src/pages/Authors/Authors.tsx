@@ -1,7 +1,8 @@
-import { FC, useEffect } from "react";
+import React, { FC } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import { useActions } from "../../hooks/useActions";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { AuthorActionTypes } from "../../redux/types/authors";
 import { AuthorsWrapper, Table, Td, Th, Tr } from "./styles";
 
 interface AuthorsProps {}
@@ -16,13 +17,17 @@ export const titleAuthors = [
 
 export const Authors: FC<AuthorsProps> = () => {
   const history = useHistory();
-
+  const dispatch = useDispatch();
   const { dataAuthors } = useTypedSelector((state) => state.dataAuthors);
-  const { fetchAuthors } = useActions();
 
-  useEffect(() => {
-    fetchAuthors();
-  }, []);
+  const deleteAuthor = (id: number) => {
+    let index = dataAuthors.findIndex((el) => el.id === id);
+    dataAuthors.splice(index, 1);
+    dispatch({
+      type: AuthorActionTypes.FETCH_AUTHOR,
+      payload: dataAuthors,
+    });
+  };
 
   return (
     <AuthorsWrapper>
@@ -30,14 +35,14 @@ export const Authors: FC<AuthorsProps> = () => {
         <thead>
           <Tr>
             {titleAuthors.map((el) => {
-              return <Th>{el}</Th>;
+              return <Th key={el}>{el}</Th>;
             })}
           </Tr>
         </thead>
         <tbody>
           {dataAuthors.map((el) => {
             return (
-              <Tr>
+              <Tr key={el.id}>
                 <Td>{el.last_name}</Td>
                 <Td>{el.first_name}</Td>
                 <Td>
@@ -51,15 +56,16 @@ export const Authors: FC<AuthorsProps> = () => {
                   </button>
                 </Td>
                 <Td>
-                  <button>Удаление</button>
+                  <button onClick={() => deleteAuthor(el.id)}>Удаление</button>
                 </Td>
               </Tr>
             );
           })}
           <Tr>
-            {" "}
             <Td>
-              <button>Добавление автора</button>
+              <button onClick={() => history.push(`/create`)}>
+                Добавление автора
+              </button>
             </Td>
           </Tr>
         </tbody>

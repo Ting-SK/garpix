@@ -15,12 +15,7 @@ export const authorsReducer = (
   switch (action.type) {
     case AuthorActionTypes.FETCH_AUTHOR:
       return { dataAuthors: action.payload };
-    case AuthorActionTypes.EDIT_AUTHOR:
-      // return { dataAuthors: action.payload };
-      return {
-        dataAuthors: action.payload,
-      };
-
+   
     default:
       return state;
   }
