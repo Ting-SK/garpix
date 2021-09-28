@@ -2,16 +2,19 @@ import React, { FC, useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-// import { AuthorActionTypes } from "../../redux/types/authors";
-import { IBook, IParams } from "../../types";
-import { EditBookWrapper } from "./styles";
+
 import { Button } from "antd";
 import { BooksActionTypes } from "../../redux/types/books";
+import { ListInfo } from "../../components/ListInfo";
+import { Field } from "../../components/Field";
+
+import { IParams } from "../../types";
+import { EditBookWrapper } from "./styles";
 
 export const EditBook: FC = () => {
   const [title, setTitle] = useState<string>("");
   const [isYear, setYear] = useState<string>("");
-  const [selectAuthor, setSelectAuthor] = useState<string>("");
+  const [selectAuthor, setSelectAuthor] = useState<string>('1');
 
   const history = useHistory();
   const params = useParams<IParams>();
@@ -19,12 +22,6 @@ export const EditBook: FC = () => {
 
   const { dataBooks } = useTypedSelector((state) => state.dataBooks);
   const { dataAuthors } = useTypedSelector((state) => state.dataAuthors);
-
-  let currentBook: IBook | undefined = dataBooks.find(
-    (el) => el.id === +params.id
-  );
-
-  console.log(currentBook);
 
   const changeTitle = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,8 +47,8 @@ export const EditBook: FC = () => {
   const editBooks = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
-      const editBook = dataBooks.map((rec) => {
-        if (rec.id === +params.id) {
+      const editBook = dataBooks.map((book) => {
+        if (book.id === +params.id) {
           return {
             id: +params.id,
             title: title,
@@ -59,14 +56,15 @@ export const EditBook: FC = () => {
             author_id: +selectAuthor,
           };
         }
-        return rec;
+        return book;
       });
       dispatch({
         type: BooksActionTypes.FETCH_BOOKS,
         payload: editBook,
       });
-      console.log(editBook, "editBook");
       history.push("../books");
+  console.log(dataBooks)
+
     },
     [dataBooks, dispatch, history, isYear, params.id, selectAuthor, title]
   );
@@ -74,25 +72,35 @@ export const EditBook: FC = () => {
   return (
     <EditBookWrapper>
       <Button
-        style={{ alignSelf: "flex-start" }}
+        style={{
+          position: "absolute",
+          top: "40px",
+          left: "40px",
+          alignSelf: "flex-start",
+        }}
         onClick={() => history.push("/books")}
       >
         Назад
       </Button>
-      <label>
-        {currentBook?.title}
-        <input value={title} onChange={changeTitle} />
-      </label>
-      <select onChange={changeAuthor} value={selectAuthor}>
-        {dataAuthors.map((el) => {
-          return <option value={el.id}>{el.last_name}</option>;
-        })}
-      </select>
-      <label>
-        {currentBook?.created_at}
-        <input value={isYear} onChange={changeYear} />
-      </label>
-      <button onClick={editBooks}>Отредактировать</button>
+      <ListInfo>
+        <Field>
+          <label>
+            Введите название книги
+            <input value={title} onChange={changeTitle} />
+          </label>
+          Выберите автора
+          <select onChange={changeAuthor} value={selectAuthor}>
+            {dataAuthors.map((el) => {
+              return <option value={el.id}>{el.last_name}</option>;
+            })}
+          </select>
+          <label>
+            Напишите год публикации{" "}
+            <input value={isYear} onChange={changeYear} />
+          </label>
+          <button onClick={editBooks}>Отредактировать</button>
+        </Field>
+      </ListInfo>
     </EditBookWrapper>
   );
 };

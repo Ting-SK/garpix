@@ -1,19 +1,17 @@
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
-import { MainPageWrapper } from "./styles";
-import "antd/dist/antd.css";
-import { Button } from "antd";
-interface MainPageProps {}
+import Author from "../../assets/pics/author.jpg";
+import Books from "../../assets/pics/books.jpg";
+import { Img, MainPageWrapper } from "./styles";
 
-
-export const MainPage: FC<MainPageProps> = () => {
+export const MainPage: FC = () => {
   return (
     <MainPageWrapper>
       <NavLink to="/books">
-        <Button type="primary">Books</Button>
+        <Img src={Books} alt="Books" />
       </NavLink>
       <NavLink to="/authors">
-        <Button type="primary">Authors</Button>
+        <Img src={Author} alt="Authors" />
       </NavLink>
     </MainPageWrapper>
   );

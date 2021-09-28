@@ -1,90 +1,101 @@
-import { FC } from "react";
-import "antd/dist/antd.css";
+import { FC, useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import { Button } from "antd";
+import { titleBooks } from "../../services/data";
 
 import { BooksWrapper, Table, Td, Th, Tr } from "./styles";
-import { useTypedSelector } from "../../hooks/useTypedSelector";
-import { useHistory } from "react-router";
 import { BooksActionTypes } from "../../redux/types/books";
-import { useDispatch } from "react-redux";
+import { IAuthor, IBook } from "../../types";
 
-interface BooksProps {}
-
-export const titleBooks = [
-  "Название книги",
-  "Фамилия автора",
-  "Имя автора",
-  "Первая публикация",
-  "Ссылка на просмотр книги",
-  "Ссылка на редактирование книги",
-  "Кнопка удаления книги",
-  "Кнопка создания книги",
-];
-
-export const Books: FC<BooksProps> = () => {
+export const Books: FC = () => {
   const { dataBooks } = useTypedSelector((state) => state.dataBooks);
   const { dataAuthors } = useTypedSelector((state) => state.dataAuthors);
+
   const history = useHistory();
   const dispatch = useDispatch();
-  const deleteBook = (id: number) => {
-    let index = dataBooks.findIndex((el) => el.id === id);
-    dataBooks.splice(index, 1);
-    dispatch({
-      type: BooksActionTypes.FETCH_BOOKS,
-      payload: dataBooks,
-    });
-  };
+
+  const deleteBook = useCallback(
+    (id: number) => {
+      dataBooks.splice(
+        dataBooks.findIndex((el) => el.id === id),
+        1
+      );
+      dispatch({
+        type: BooksActionTypes.FETCH_BOOKS,
+        payload: dataBooks,
+      });
+    },
+    [dataBooks, dispatch]
+  );
 
   return (
     <BooksWrapper>
       <Table>
         <thead>
           <Tr>
-            {titleBooks.map((el) => {
-              return <Th>{el}</Th>;
+            {titleBooks.map((title: string): JSX.Element => {
+              return <Th>{title}</Th>;
             })}
           </Tr>
         </thead>
         <tbody>
-          {dataBooks.map((el) => {
+          {dataBooks.map((book: IBook): JSX.Element => {
             return (
               <Tr>
-                <Td>{el.title}</Td>
+                <Td>{book.title}</Td>
                 <Td>
                   {dataAuthors.map(
-                    (auth) =>
-                      auth.id === el.author_id && <Td>{auth.last_name}</Td>
+                    (author: IAuthor): boolean | JSX.Element =>
+                      author.id === book.author_id && (
+                        <Td>{author.last_name}</Td>
+                      )
                   )}
                 </Td>
                 <Td>
                   {dataAuthors.map(
-                    (auth) =>
-                      auth.id === el.author_id && <Td>{auth.first_name}</Td>
+                    (author: IAuthor): boolean | JSX.Element =>
+                      author.id === book.author_id && (
+                        <Td>{author.first_name}</Td>
+                      )
                   )}
                 </Td>
-                <Td>{el.created_at}</Td>
+                <Td>{book.created_at}</Td>
                 <Td>
-                  <button onClick={() => history.push(`/books/${el.id}`)}>
+                  <Button onClick={() => history.push(`/books/${book.id}`)}>
                     Ссылка на просмотр
-                  </button>
+                  </Button>
                 </Td>
                 <Td>
-                  <button onClick={() => history.push(`/editbook/${el.id}`)}>
+                  <Button onClick={() => history.push(`/editbook/${book.id}`)}>
                     Редактирование
-                  </button>
+                  </Button>
                 </Td>
                 <Td>
-                  <button onClick={() => deleteBook(el.id)}>
+                  <Button onClick={() => deleteBook(book.id)}>
                     Удаление книги
-                  </button>
+                  </Button>
                 </Td>
               </Tr>
             );
           })}
-          <Tr>
-            {" "}
-            <button onClick={() => history.push(`/createbook`)}>
-              Создание книги
-            </button>
+          <Tr
+            style={{
+              textAlign: "center",
+            }}
+          >
+            <Button
+              type="primary"
+              style={{
+                width: "100%",
+                height: "60px",
+                borderRadius: "10px",
+              }}
+              onClick={() => history.push(`/createbook`)}
+            >
+              Создать новую книгу
+            </Button>
           </Tr>
         </tbody>
       </Table>

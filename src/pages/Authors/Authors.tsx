@@ -1,33 +1,30 @@
-import React, { FC } from "react";
+import { FC, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { AuthorActionTypes } from "../../redux/types/authors";
+import { titleAuthors } from "../../services/data";
 import { AuthorsWrapper, Table, Td, Th, Tr } from "./styles";
+import { Button } from "antd";
 
-interface AuthorsProps {}
-
-export const titleAuthors = [
-  "Фамилия автора",
-  "Имя автора",
-  "Ссылка на просмотр автора",
-  "Ссылка на редактирование автора",
-  "Кнопка удаления автора",
-];
-
-export const Authors: FC<AuthorsProps> = () => {
+export const Authors: FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { dataAuthors } = useTypedSelector((state) => state.dataAuthors);
 
-  const deleteAuthor = (id: number) => {
-    let index = dataAuthors.findIndex((el) => el.id === id);
-    dataAuthors.splice(index, 1);
-    dispatch({
-      type: AuthorActionTypes.FETCH_AUTHOR,
-      payload: dataAuthors,
-    });
-  };
+  const deleteAuthor = useCallback(
+    (id: number): void => {
+      dataAuthors.splice(
+        dataAuthors.findIndex((el) => el.id === id),
+        1
+      );
+      dispatch({
+        type: AuthorActionTypes.FETCH_AUTHOR,
+        payload: dataAuthors,
+      });
+    },
+    [dataAuthors, dispatch]
+  );
 
   return (
     <AuthorsWrapper>
@@ -46,27 +43,37 @@ export const Authors: FC<AuthorsProps> = () => {
                 <Td>{el.last_name}</Td>
                 <Td>{el.first_name}</Td>
                 <Td>
-                  <button onClick={() => history.push(`/authors/${el.id}`)}>
-                    Просмотр
-                  </button>
+                  <Button onClick={() => history.push(`/authors/${el.id}`)}>
+                    Просмотр автора
+                  </Button>
                 </Td>
                 <Td>
-                  <button onClick={() => history.push(`/editauthor/${el.id}`)}>
-                    Редактирование
-                  </button>
+                  <Button onClick={() => history.push(`/editauthor/${el.id}`)}>
+                    Редактирование автора
+                  </Button>
                 </Td>
                 <Td>
-                  <button onClick={() => deleteAuthor(el.id)}>Удаление</button>
+                  <Button onClick={() => deleteAuthor(el.id)}>Удаление</Button>
                 </Td>
               </Tr>
             );
           })}
-          <Tr>
-            <Td>
-              <button onClick={() => history.push(`/createauthor`)}>
-                Добавление автора
-              </button>
-            </Td>
+          <Tr
+            style={{
+              textAlign: "center",
+            }}
+          >
+            <Button
+              type="primary"
+              style={{
+                width: "100%",
+                height: "60px",
+                borderRadius: "10px",
+              }}
+              onClick={() => history.push(`/createauthor`)}
+            >
+              Добавление автора
+            </Button>
           </Tr>
         </tbody>
       </Table>

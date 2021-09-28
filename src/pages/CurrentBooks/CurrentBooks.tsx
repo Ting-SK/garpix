@@ -1,7 +1,9 @@
 import { Button } from "antd";
 import { FC } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { ListInfo } from "../../components/ListInfo";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
+
 import { IBook, IParams } from "../../types";
 import { CurrentBooksWrapper } from "./styles";
 
@@ -17,25 +19,30 @@ export const CurrentBooks: FC = () => {
   return (
     <CurrentBooksWrapper>
       <Button
-        style={{ alignSelf: "flex-start" }}
+        style={{
+          position: "absolute",
+          top: "40px",
+          left: "40px",
+          alignSelf: "flex-start",
+        }}
         onClick={() => history.push("/books")}
       >
         Назад
       </Button>
-      <div>
+      <ListInfo>
         <p>{currentBook?.title}</p>
         <p>
           {dataAuthors.map(
             (auth) => auth.id === currentBook?.author_id && auth.last_name
           )}
-        </p>{" "}
+        </p>
         <p>
           {dataAuthors.map(
             (auth) => auth.id === currentBook?.author_id && auth.first_name
           )}
         </p>
         <p>{currentBook?.created_at}</p>
-      </div>
+      </ListInfo>
     </CurrentBooksWrapper>
   );
 };

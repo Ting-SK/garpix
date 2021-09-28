@@ -11,12 +11,6 @@ export interface IAuthor {
   first_name: string;
 }
 
-export interface IColumn {
-  title: string;
-  dataIndex: string;
-  key: string;
-}
-
 export interface IParams {
   id: any;
 }

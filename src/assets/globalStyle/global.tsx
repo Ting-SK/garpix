@@ -5,12 +5,14 @@ export const GlobalStyle = createGlobalStyle`
   outline: none;
 }
 body {
-  background-color: #FFC0CB;
+  background-color: #FFCCFF;
   font-family: Tahoma, Helvetica, Arial, Roboto, sans-serif;
   margin: 0;
   padding: 0;
   list-style: none;
   text-decoration: none;
+  width: 100vw;
+  height: 100vh;
 }
 li{
   list-style: none;
@@ -29,8 +31,6 @@ export const AppWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  width: 100vw;
-  height: 100vh;
-  // padding: 5px;
-  // background: ${({ theme }) => theme.body};
+  width: 100%;
+  height: 100%;
 `;

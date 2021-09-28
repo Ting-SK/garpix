@@ -1,13 +1,13 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { HeaderWrapper } from "./styles";
+import { HeaderWrapper, LinkStyle } from "./styles";
 
-interface HeaderProps {}
-
-export const Header: FC<HeaderProps> = () => {
+export const Header: FC = () => {
   return (
     <HeaderWrapper>
-      <Link to="/">На главную</Link>
+      <Link to="/">
+        <LinkStyle>На главную</LinkStyle>
+      </Link>
     </HeaderWrapper>
   );
 };
