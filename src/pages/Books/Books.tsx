@@ -36,14 +36,14 @@ export const Books: FC = () => {
         <thead>
           <Tr>
             {titleBooks.map((title: string): JSX.Element => {
-              return <Th>{title}</Th>;
+              return <Th key={title}>{title}</Th>;
             })}
           </Tr>
         </thead>
         <tbody>
           {dataBooks.map((book: IBook): JSX.Element => {
             return (
-              <Tr>
+              <Tr key={book.id}>
                 <Td>{book.title}</Td>
                 <Td>
                   {dataAuthors.map(

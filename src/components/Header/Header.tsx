@@ -5,7 +5,7 @@ import { HeaderWrapper, LinkStyle } from "./styles";
 export const Header: FC = () => {
   return (
     <HeaderWrapper>
-      <Link to="/">
+      <Link to="/garpix">
         <LinkStyle>На главную</LinkStyle>
       </Link>
     </HeaderWrapper>

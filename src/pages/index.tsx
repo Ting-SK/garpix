@@ -17,7 +17,7 @@ interface IRoutes {
 
 export const routes: IRoutes[] = [
   {
-    path: "/",
+    path: "/garpix",
     exact: true,
     component: MainPage,
   },
