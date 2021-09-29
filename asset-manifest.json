@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.js": "/garpix/static/js/main.3c44c7fb.chunk.js",
-    "main.js.map": "/garpix/static/js/main.3c44c7fb.chunk.js.map",
+    "main.js": "/garpix/static/js/main.7dd482eb.chunk.js",
+    "main.js.map": "/garpix/static/js/main.7dd482eb.chunk.js.map",
     "runtime-main.js": "/garpix/static/js/runtime-main.4719c4bf.js",
     "runtime-main.js.map": "/garpix/static/js/runtime-main.4719c4bf.js.map",
     "static/css/2.786ae0dd.chunk.css": "/garpix/static/css/2.786ae0dd.chunk.css",
-    "static/js/2.5f1b131b.chunk.js": "/garpix/static/js/2.5f1b131b.chunk.js",
-    "static/js/2.5f1b131b.chunk.js.map": "/garpix/static/js/2.5f1b131b.chunk.js.map",
+    "static/js/2.2368b55c.chunk.js": "/garpix/static/js/2.2368b55c.chunk.js",
+    "static/js/2.2368b55c.chunk.js.map": "/garpix/static/js/2.2368b55c.chunk.js.map",
     "index.html": "/garpix/index.html",
     "static/css/2.786ae0dd.chunk.css.map": "/garpix/static/css/2.786ae0dd.chunk.css.map",
-    "static/js/2.5f1b131b.chunk.js.LICENSE.txt": "/garpix/static/js/2.5f1b131b.chunk.js.LICENSE.txt",
+    "static/js/2.2368b55c.chunk.js.LICENSE.txt": "/garpix/static/js/2.2368b55c.chunk.js.LICENSE.txt",
     "static/media/books.eb4f5570.jpg": "/garpix/static/media/books.eb4f5570.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.4719c4bf.js",
     "static/css/2.786ae0dd.chunk.css",
-    "static/js/2.5f1b131b.chunk.js",
-    "static/js/main.3c44c7fb.chunk.js"
+    "static/js/2.2368b55c.chunk.js",
+    "static/js/main.7dd482eb.chunk.js"
   ]
 }
